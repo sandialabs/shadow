@@ -1,0 +1,15 @@
+References
+==========
+
+.. [Linville20] Linville, Lisa, et al. "Semi-supervised learning for seismic monitoring applications". In preparation. (2020).
+
+.. [Miyato18] Miyato, Takeru, et al. "Virtual adversarial training: a regularization method for supervised and semi-supervised learning." IEEE transactions on pattern analysis and machine intelligence 41.8 (2018): 1979-1993.
+
+.. [Tarvainen17] Tarvainen, Antti, and Harri Valpola. "Mean teachers are better role models: Weight-averaged consistency targets improve semi-supervised deep learning results." Advances in neural information processing systems. 2017.
+
+.. [Oliver18] Oliver, Avital, et al. "Realistic evaluation of semi-supervised learning algorithms." (2018).
+
+.. [Rasmus15] Rasmus, Antti, et al. "Semi-supervised learning with ladder networks." Advances in neural information processing systems. 2015.
+
+.. [Goodfellow14] Goodfellow, Ian J., Jonathon Shlens, and Christian Szegedy. "Explaining and harnessing adversarial examples." arXiv preprint arXiv:1412.6572 (2014).
+
