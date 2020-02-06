@@ -27,7 +27,7 @@ else:
     years = "{}-{}".format(first_year, last_year)
 
 project = 'Shadow'
-copyright = years + ', National Technology & Engineering Solutions of Sandia, LLC.'
+copyright = years + ', National Technology & Engineering Solutions of Sandia, LLC. SCR# 2444.0'
 author = 'National Technology & Engineering Solutions of Sandia, LLC (NTESS)'
 
 

@@ -13,7 +13,6 @@ build
 .pytest_cache
 doc/build
 doc/source/examples/data*
-*.rst
 *.png
 *.gif
 *.jpg
