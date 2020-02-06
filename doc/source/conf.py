@@ -59,6 +59,9 @@ exclude_patterns = ["**tests**", "**.ipynb_checkpoints"]
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
 
+# Mock these imports for lightweight docs building
+autodoc_mock_imports = ["pytorch", "numpy"]
+
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -77,7 +80,7 @@ todo_include_todos = True
 
 # Fail process if an exception occurs while running notebooks
 nbsphinx_allow_errors = False
-nbsphinx_execute = "auto"
+nbsphinx_execute = "never"
 nbsphinx_timeout = 1800  # 30 mins, need longer cell timeout for training models
 
 numfig = True  # number figures with captions
