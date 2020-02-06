@@ -10,8 +10,14 @@ to obtain but unlabeled examples are plentiful.
 
 ![SSML for half moons](doc/source/figures/ssml-halfmoons.png)
 
-For more information, go to [external]
+For more information, go to https://shadow-ssml.readthedocs.io/en/latest/
 
+Installation
+------------
+Shadow can by installed directly from pypi as:
+```
+pip install shadow-ssml
+```
 
 Citing Shadow
 --------------
