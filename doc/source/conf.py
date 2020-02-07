@@ -10,13 +10,15 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+import datetime
+
+# Add source code path
+sys.path.insert(0, os.path.abspath('../../src'))
 
 
 # -- Project information -----------------------------------------------------
-import datetime
 
 first_year = 2019
 last_year = int(datetime.datetime.now().year)
@@ -60,7 +62,7 @@ exclude_patterns = ["**tests**", "**.ipynb_checkpoints"]
 pygments_style = "sphinx"
 
 # Mock these imports for lightweight docs building
-autodoc_mock_imports = ["pytorch", "numpy"]
+autodoc_mock_imports = ["torch", "numpy"]
 
 
 # -- Options for HTML output -------------------------------------------------
