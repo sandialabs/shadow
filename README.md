@@ -1,6 +1,11 @@
 ![Shadow](doc/source/figures/logo.png)
 ======================================
 
+[![Build Status](https://travis-ci.org/sandialabs/shadow.svg?branch=master)](https://travis-ci.org/sandialabs/shadow)
+[![Coverage Status](https://coveralls.io/repos/github/sandialabs/shadow/badge.svg?branch=travis)](https://coveralls.io/github/sandialabs/shadow?branch=travis)
+[![Documentation Status](https://readthedocs.org/projects/shadow-ssml/badge/?version=latest)](https://shadow-ssml.readthedocs.io/en/latest/?badge=latest)
+[![Downloads](https://pepy.tech/badge/shadow-ssml)](https://pepy.tech/project/shadow-ssml)
+
 Shadow is a [PyTorch](https://pytorch.org/) based library for semi-supervised machine learning.
 The `shadow` python 3 package includes implementations of Virtual Adversarial Training,
 Mean Teacher, and Exponential Averaging Adversarial Training.
