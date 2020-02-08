@@ -1,14 +1,32 @@
 language: python
-install:
+before_install:
   - sudo apt-get update
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-  - bash miniconda.sh -b -p $HOME/minicoda
+  - bash miniconda.sh -b -p $HOME/miniconda
   - source "$HOME/miniconda/etc/profile.d/conda.sh"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-
-
+install:
+  - conda env create --file environment.yml
+  - conda env update --file dev-environment.yml
+  - conda activate ssml
+  - conda install -c conda-forge coveralls
+  - pip install .
 script:
-  - echo "hello world!"
+  - conda activate ssml
+  - flake8
+  - pytest --tb=short -m "not gpu" --strict --cov=shadow tests
+after_success:
+  - coveralls
+deploy:
+  provider: pypi
+  skip_existing: true
+  user: __token__
+  server: https://test.pypi.org/legacy/
+  password:
+    secure: D+BSFDBSD2g2puRTKonwibRfJzhK6Zobglh7wXz8gejiAjELEA2MMuTMBXCKJT3HGtgIg2xhchKr/3lwuKlhKzDJkMxtGKrKErE+6FF65lTyxRRIMAO8VHwfH60TUIcfnTZUNjrqlg8/2pcdMdNp0uEvZvkXNCAV1Jdc2BlpWW5gzihcnuw6FvZWBnrxOcOXatjNHQyUMJP6pgXIlzNfl8fqXQs8aGSkNzDSIa83BiTDyrQrcV3pXsg9iS59mFAZWDsCxq1iqhPsMiPP1jP3/+iXO6loX6azVJ6RD8+0N5Pg0r1uNDGeIjM6TgdC4mukXNQlMSQr54ucHCuRvv7yrB4b9bODFzuveIxAd1Ps4QIpKHzZ0eSmmDe8DqYJAcpUrpQXnHhHIh0lj/TqV7UXbspwhdXl/FOrfcBl1SBcwH7WenH/gT0Xjme+DGu4n5T9UoWUM07qP4igFGhIKjgyXT/hr3TMlx6bWZhKftAGhKPUtpiuo1QAbhoDvSGdfHFhp8TXMSNEFEBAOjFKj/W4s3NJ4/traBCL6u6KFL1D4MAKMIidz9QUIhyqlm3OD50mIACluD4lz2JGLhWYw3Ili/i7g8UvclftvjhV7JYraKRnL7t1JLxfwjINks84eopI6O2loPfzalwV5ksd8f1p56059lxlTUjmP12H8hwUlHc=
+  on:
+    all_branches: true  # TODO Change to master only after debugging
+    # tags: true  # TODO Uncomment after debugging

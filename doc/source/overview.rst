@@ -19,7 +19,8 @@ Package Design
 --------------
 
 Semi-supervised techniques require two steps for integration into an existing supervised workflow.
-First, the existing PyTorch model is wrapped using the desired technique, in this case EAAT:
+First, the existing PyTorch model is wrapped using the desired technique, in this case Exponential Average
+Adversarial Training (EAAT):
 
 .. code-block:: python
 
@@ -35,7 +36,7 @@ Next, the loss function computation during training is modified to include a cal
     loss = criterion(x, y) + eaat.get_technique_cost(x)
 
 
-Note that as posed in this code example, both labeled and unlabeled data is passed to the supervised
+Note that as posed in this code example, both labeled and unlabeled data are passed to the supervised
 part of the loss function, `criterion`. The
 `PyTorch CrossEntropyLoss <https://pytorch.org/docs/stable/nn.html#crossentropyloss>`_ provides an
 `ignore_index` parameter. For samples without labels, `y` is set to this `ignore_index`. Other loss
@@ -112,7 +113,7 @@ model :math:`f_\theta` (student), and :math:`n` represents additive noise. This 
     :align: center
 
     Mean Teacher [Tarvainen17]_ enforces consistency over model weights between a student
-    (gold dashed line) and a teacher (grey dashed line) model. The teacher model is the weight-wise
+    (grey dashed line) and a teacher (gold dashed line) model. The teacher model is the weight-wise
     exponential moving average during training of the student.
 
 Exponential Averaging Adversarial Training
@@ -146,7 +147,7 @@ various approaches to semi-supervised learning in a new application domain: seis
 waveform data. Although we primarily focus on classification, the
 generalized framework provided here supports both classification and
 regression tasks. Although all new datasets and techniques require significant investment in
-tuning and optimization, for many of these SSML techniques we have
+tuning and optimization, for many of these SSL techniques we have
 observed significant sensitivity to small changes in hyperparameter settings
 and experiment set-up. Below, we offer some lessons learned for training and experiment setup
 for these techniques.
@@ -154,42 +155,42 @@ for these techniques.
 Although VAT and EAAT seem to tolerate significant imbalance between
 unlabeled and labeled data fractions per class, MT often learns best with a
 50/50 labeled/unlabeled data fraction within each mini-batch. In the case of small label budgets
-this implies significant oversamling of labeled data. In many of our experiments
+this implies significant oversampling of labeled data. In many of our experiments,
 we found a consistency cost weighted at 2-4 times that of the class
-loss enabled meaningful learning beyond simply fitting the label set
+loss enabled meaningful learning beyond simply fitting the label set.
 
-For example to weight the consistency cost:
+For example, to weight the consistency cost:
 
 .. code-block:: python
 
     loss = criterion(x, y) + weight * mt.get_technique_cost(x)
 
-VAT on the other hand often trains longer under large label/unlabeled
+VAT, on the other hand, often trains longer under large label/unlabeled
 fractions per batch, can tolerate a range of loss weights, but can be
 sensitive to the perturbation amplitude (`xi`). We suggest `xi` be tuned in
 advance of model training for new datasets to ensure the perturbation
 amplitudes are not unreasonably large or converge to zero over
-1 power iteration. The `xi_check` parameter can be turned on to guide initial order of magnitude
-studies in this regard. Likewise the eigenvector estimation used to find virtual adversarial
+one power iteration. The `xi_check` parameter can be turned on to guide initial order of magnitude
+studies in this regard. Likewise, the eigenvector estimation used to find virtual adversarial
 directions yields a sign ambiguity: perturbations are often estimated in the negative of the
 direction that provides the maximum change in model output. We provide a method to resolve the
 direction ambiguity as a technique parameter: `flip_correction` (defaults
 to `True`). If set to `False`, computation is faster but convergence may be slower as
-competing directions may more closely resemble random pertubations.
+competing directions may more closely resemble random perturbations.
 
 EAAT has more complexity than MT or VAT alone; it requires consistency between
 input and adversarially perturbed input on the exponential average model. Added
 loss complexity often requires more extensive hyperparameter exploration. In our
-experiments this included the considerations mentioned above for both MT and VAT
-and model depth, which appeared to limit SSML performance more than
+experiments, this included the considerations mentioned above for both MT and VAT
+and model depth, which appeared to limit SSL performance more than
 fully-supervised learning in the same data regime using EAAT.
 
-In [Linville20]_ we examine the performance between MT, VAT, and EAAT against
+In [Linville20]_, we examine the performance between MT, VAT, and EAAT against
 several baselines in a label-limited regime (where unlabeled data significantly
-outweighs the labeled data quantity). In these experiemnts SSL outperforms
-baselines significantly. However, we also hightlight that there is a
+outweighs the labeled data quantity). In these experiments, SSL outperforms
+baselines significantly. However, we also highlight that there is a
 limit to SSL performance as the number of available labels increases. When
-larger label fractions are available SSL for our data can typically match but
+larger label fractions are available, SSL for our data can typically match but
 not increase performance compared to fully-supervised models, but at the expense
 of significantly more time spent on parameter optimization. One exception is
 that adding even minimal quantities of unlabeled data from out-of-domain (OOD)
@@ -197,8 +198,8 @@ examples, in this case geographically, can positively impact prediction accuracy
 on new OOD examples, even when the number of unlabeled OOD examples is small
 compared to the number of labeled examples.
 
-We hope the consistency based SSL techniques provided here enable exploration on
-a wide variety of problems and datasets. To get you started we provide a simple
+We hope the consistency-based SSL techniques provided here enable exploration on
+a wide variety of problems and datasets. To get you started, we provide a simple
 use example on MNIST available in :doc:`MNIST Example <examples/mnist_example>`.
 
 
