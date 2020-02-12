@@ -48,4 +48,4 @@ def accuracy(y_pred, y):
     Returns:
         float: Classification accuracy percentage.
     """
-    return 100 * (y_pred == y).sum() / len(y)
+    return 100 * (y_pred == y).sum().double() / len(y)

@@ -1,12 +1,10 @@
 import shadow.losses
-import shadow.ema
-import shadow.rpt
 import shadow.utils
 import shadow.vat
 import shadow.mt
 
 
-class Eaat(shadow.mt.MeanTeacher):
+class EAAT(shadow.mt.MT):
     r"""Exponential Averaging Adversarial Training (EAAT, [Linville20]_) model wrapper for consistency regularization.
 
     Computes consistency using the teacher-student paradigm followed by Mean-Teacher
@@ -42,7 +40,7 @@ class Eaat(shadow.mt.MeanTeacher):
     def __init__(self, model, alpha=0.999, student_noise=0.1, teacher_noise=0.1,
                  xi=1.0, eps=1.0, power_iter=1, consistency_type="kl",
                  flip_correction=True):
-        super(Eaat, self).__init__(model, alpha, student_noise, consistency_type)
+        super(EAAT, self).__init__(model, alpha, student_noise, consistency_type)
 
         # additional MT param
         self.teacher_noise = teacher_noise

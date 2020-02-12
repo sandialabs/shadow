@@ -9,8 +9,7 @@ before_install:
   - conda update -q conda
   - conda info -a
 install:
-  - conda env create --file environment.yml
-  - conda env update --file dev-environment.yml
+  - conda env create --file ci-environment.yml
   - conda activate ssml
   - conda install -c conda-forge coveralls
   - pip install .

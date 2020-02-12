@@ -2,10 +2,8 @@ import torch
 import shadow.vat
 import shadow.losses
 import warnings
-import pytest
 
 
-@pytest.mark.xfail
 def test_semisupervised_half_moons(torch_device, simple_classification_model, ssml_half_moons_ds, train):
     """ Simple integration test for comparing fully supervised learning for half moons against VAT ssml.
 
@@ -31,27 +29,25 @@ def test_semisupervised_half_moons(torch_device, simple_classification_model, ss
 
     # train
     y_pred = train(
-        baseline, optimizer, criterion, n_epochs=1000,
+        baseline, optimizer, criterion, n_epochs=500,
         dataset=dataset, device=torch_device)
     train_acc = shadow.losses.accuracy(y_pred, dataset.tensors[-1].to(torch_device))
 
     # Next, compute performance via the VAT SSML technique
     # Create the model
     model = simple_classification_model().to(torch_device)
-    vat = shadow.vat.Vat(model=model, xi=1e-4, eps=0.3, power_iter=1,
-                         consistency_type="mse")
+    vat = shadow.vat.VAT(model=model, xi=1e-4, eps=0.05, power_iter=5)
     # Optimizer and criterion for regular classification cost calculation
     optimizer = torch.optim.SGD(vat.parameters(), lr=0.1, momentum=0.9)
     xEnt = torch.nn.CrossEntropyLoss(ignore_index=-1).to(torch_device)
-    alpha = 2
 
     def loss(y_pred, y, x):
-        return xEnt(y_pred, y) + alpha * vat.get_technique_cost(x)
+        return xEnt(y_pred, y) + vat.get_technique_cost(x)
 
     # Do training and test accuracy
     vat.train()
     y_pred = train(
-        vat, optimizer, loss, n_epochs=5000,
+        vat, optimizer, loss, n_epochs=500,
         dataset=dataset, device=torch_device
     )
     ssml_acc = shadow.losses.accuracy(y_pred, y.to(torch_device))
