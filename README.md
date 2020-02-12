@@ -2,7 +2,7 @@
 ======================================
 
 [![Build Status](https://travis-ci.org/sandialabs/shadow.svg?branch=master)](https://travis-ci.org/sandialabs/shadow)
-[![Coverage Status](https://coveralls.io/repos/github/sandialabs/shadow/badge.svg?branch=travis)](https://coveralls.io/github/sandialabs/shadow?branch=travis)
+[![Coverage Status](https://coveralls.io/repos/github/sandialabs/shadow/badge.svg?branch=master)](https://coveralls.io/github/sandialabs/shadow?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/shadow-ssml/badge/?version=latest)](https://shadow-ssml.readthedocs.io/en/latest/?badge=latest)
 [![Downloads](https://pepy.tech/badge/shadow-ssml)](https://pepy.tech/project/shadow-ssml)
 
