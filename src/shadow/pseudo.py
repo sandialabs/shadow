@@ -36,7 +36,7 @@ class Threshold(torch.nn.Module):
         return torch.any(predictions > self.thresholds, dim=1).float()
 
 
-class PseudoLabel(shadow.module_wrapper.ModuleWrapper):
+class PL(shadow.module_wrapper.ModuleWrapper):
     r"""Pseudo Label model wrapper.
 
 
@@ -56,7 +56,7 @@ class PseudoLabel(shadow.module_wrapper.ModuleWrapper):
             missing labels. Defaults to -1.
     """
     def __init__(self, model, weight_function, ssml_mode=True, missing_label=-1):
-        super(PseudoLabel, self).__init__(model)
+        super(PL, self).__init__(model)
         self.weight_function = weight_function
         self.ssml_mode = ssml_mode
         self.missing_label = missing_label

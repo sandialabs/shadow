@@ -24,3 +24,9 @@ apidoc:
 	$(SPHINXAPIDOC) -fMTe ../src/shadow -o $(SOURCEDIR)
 	@echo
 	@echo "API Documentation build finished. The rst files are in $(SOURCEDIR)."
+
+.PHONY: examples
+examples:
+	python source/examples/build_examples.py
+	@echo
+	@echo "Example notebooks finished."

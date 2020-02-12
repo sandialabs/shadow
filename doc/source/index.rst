@@ -81,6 +81,7 @@ Contents
     :maxdepth: 1
 
     overview.rst
+    examples/halfmoons_example
     examples/mnist_example
     documentation.rst
     copyrightlicense.rst

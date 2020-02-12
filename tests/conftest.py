@@ -107,12 +107,18 @@ def ssml_dataset(dataset, unlabeled_frac=0, *args, **kwargs):
     return torch.utils.data.TensorDataset(X, y_ssml, y)
 
 
+half_moons_params = {
+    "n_samples": 1000,
+    "noise": 0.05
+}
+
+
 @pytest.fixture
 def half_moons_ds():
     # Set seeds for reproducibility
     shadow.utils.set_seed(0, cudnn_deterministic=True)
     # Generate dataset
-    return ssml_dataset(datasets.make_moons, unlabeled_frac=0, n_samples=100)
+    return ssml_dataset(datasets.make_moons, unlabeled_frac=0, **half_moons_params)
 
 
 @pytest.fixture
@@ -120,7 +126,7 @@ def ssml_half_moons_ds():
     # Set seeds for reproducibility
     shadow.utils.set_seed(0, cudnn_deterministic=True)
     # Generate dataset
-    return ssml_dataset(datasets.make_moons, unlabeled_frac=0.9, n_samples=100)
+    return ssml_dataset(datasets.make_moons, unlabeled_frac=0.99, **half_moons_params)
 
 
 @pytest.fixture
@@ -163,6 +169,7 @@ def train():
         # Dataloader - just one big batch.
         dataloader = torch.utils.data.DataLoader(dataset, shuffle=False,
                                                  batch_size=len(dataset))
+        model.train()
         for epoch in range(n_epochs):
             for batch in dataloader:
                 X, y, *rest = batch
@@ -173,5 +180,6 @@ def train():
                 loss.backward()
                 optimizer.step()
         # Make predictions
+        model.eval()
         return torch.max(model(X), 1)[-1]
     return train_loop

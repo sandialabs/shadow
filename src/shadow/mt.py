@@ -2,11 +2,32 @@ import torch
 import numpy as np
 import copy
 import shadow.losses
-import shadow.ema
 import shadow.module_wrapper
 
 
-class MeanTeacher(shadow.module_wrapper.ModuleWrapper):
+def ema_update_model(student_model, ema_model, alpha, global_step):
+    r"""Exponential moving average update of a model.
+
+    Update `ema_model` to be the moving average of consecutive `student_model` updates via an
+    exponential weighting (as defined in [Tarvainen17]_). Update is performed in-place.
+
+    Args:
+        student_model (torch.nn.Module): The student model.
+        ema_model (torch.nn.Module): The model to update (teacher model).  Update is
+            performed in-place.
+        alpha (float): Exponential moving average smoothing coefficient, between [0, 1].
+        global_step (int): A running count of exponential update steps (typically mini-batch
+            updates).
+    """
+    if alpha < 0 or alpha > 1:
+        raise ValueError("Smoothing coefficient must be on [0, 1].")
+    # Use the true average until the exponential average is more correct
+    alpha = min(1 - 1 / (global_step + 1), alpha)
+    for ema_param, param in zip(ema_model.parameters(), student_model.parameters()):
+        ema_param.data.mul_(alpha).add_(param.data, alpha=(1 - alpha))
+
+
+class MT(shadow.module_wrapper.ModuleWrapper):
     r"""Mean Teacher [Tarvainen17]_ model wrapper for consistency regularization.
 
     Mean Teacher model wrapper the provides both student and teacher model implementation.
@@ -27,7 +48,7 @@ class MeanTeacher(shadow.module_wrapper.ModuleWrapper):
            Defaults to `'mse'` (mean squared error).
     """
     def __init__(self, model, alpha=0.999, noise=0.1, consistency_type="mse"):
-        super(MeanTeacher, self).__init__(model)
+        super(MT, self).__init__(model)
         # model is the 'student' model.
         # the 'teacher' model is the EMA model. It starts as a copy of the student model.
         self.teacher_model = copy.deepcopy(self.model)
@@ -117,7 +138,7 @@ class MeanTeacher(shadow.module_wrapper.ModuleWrapper):
         # Update the teacher model if not the first step.
         if self.model.training:
             if self.global_step > 1:
-                shadow.ema.update_model(self.model, self.teacher_model, self.alpha, self.global_step)
+                ema_update_model(self.model, self.teacher_model, self.alpha, self.global_step)
             self.global_step += 1
 
         # Calc teacher logits (non-normalized model output)
@@ -133,7 +154,7 @@ class MeanTeacher(shadow.module_wrapper.ModuleWrapper):
 
     def update_ema_model(self):
         r"""Exponential moving average update of the teacher model."""
-        shadow.ema.update_model(self.model, self.teacher_model, self.alpha, self.global_step)
+        ema_update_model(self.model, self.teacher_model, self.alpha, self.global_step)
 
     def get_evaluation_model(self):
         r"""The teacher model, which should be used for prediction during evaluation.

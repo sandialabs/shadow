@@ -1,0 +1,20 @@
+name: ssml
+channels:
+  - pytorch
+  - defaults
+  - conda-forge
+dependencies:
+  - pytorch
+  - torchvision
+  - cudatoolkit=9.0
+  - pillow<7 # https://github.com/pytorch/vision/issues/1712#issuecomment-570286349
+  - pytest
+  - pytest-cov
+  - pluggy
+  - flake8
+  - scikit-learn
+  - sphinx
+  - sphinx_rtd_theme
+  - nbsphinx
+  - jupyter
+  - matplotlib
