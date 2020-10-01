@@ -12,10 +12,9 @@ jobs:
       with:
         auto-update-conda: true
         python-version: 3
-    - name: Install Environment
-      run: |
-        conda env create --file ci-environment.yml
-        conda activate ssml
+        environment-file: ci-environment.yml
+        activate-environment: ssml
+        auto-activate-base: false
     - name: Lint
       run: flake8
     - name: Unit Tests
