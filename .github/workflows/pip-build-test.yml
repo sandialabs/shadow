@@ -16,6 +16,7 @@ jobs:
         activate-environment: ssml
         auto-activate-base: false
     - name: Pip Install
+      shell: bash -l {0}
       run: pip install .
     - name: Lint
       shell: bash -l {0}
