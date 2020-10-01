@@ -26,5 +26,5 @@ jobs:
       run: pytest --tb=short -m "not gpu" --strict --cov=shadow tests
     - name: Coveralls
       uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
