@@ -25,6 +25,9 @@ jobs:
       shell: bash -l {0}
       run: pytest --tb=short -m "not gpu" --strict --cov=shadow tests
     - name: Coveralls
-      uses: coverallsapp/github-action@master
+      # uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        conda install -c conda-forge coveralls
+        coveralls
