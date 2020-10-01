@@ -16,9 +16,8 @@ jobs:
         activate-environment: ssml
         auto-activate-base: false
     - name: Lint
-      run: |
-        conda info
-        conda list
-        flake8
+      shell: bash -l {0}
+      run: flake8
     - name: Unit Tests
+      shell: bash -l {0}
       run: pytest --tb=short -m "not gpu" --strict --cov=shadow tests
