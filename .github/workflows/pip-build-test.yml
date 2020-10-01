@@ -15,7 +15,7 @@ jobs:
         environment-file: ci-environment.yml
         activate-environment: ssml
         auto-activate-base: false
-    - name: Pip Install
+    - name: Install Dependencies
       shell: bash -l {0}
       run: pip install .
     - name: Lint
@@ -34,3 +34,11 @@ jobs:
       run: |
         conda install -c conda-forge coveralls
         coveralls
+    - name: Build
+      shell: bash -l {0}
+      run: python setup.py sdist bdist_wheel
+    - name: Publish to test-pypi
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.test_pypi_password }}
+        repository_url: https://test.pypi.org/legacy/
