@@ -11,14 +11,14 @@ before_install:
 install:
   - conda env create --file ci-environment.yml
   - conda activate ssml
-  - conda install -c conda-forge coveralls
+  #   - conda install -c conda-forge coveralls
   - pip install .
 script:
   - conda activate ssml
   - flake8
   - pytest --tb=short -m "not gpu" --strict --cov=shadow tests
-after_success:
-  - coveralls
+# after_success:
+#   - coveralls
 deploy:
   provider: pypi
   skip_existing: true
