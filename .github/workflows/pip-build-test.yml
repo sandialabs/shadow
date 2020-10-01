@@ -12,4 +12,11 @@ jobs:
       with:
         auto-update-conda: true
         python-version: 3
-    - run: conda info
+    - name: Install Environment
+      run: |
+        conda env create --file ci-environment.yml
+        conda activate ssml
+    - name: Lint
+      run: flake8
+    - name: Unit Tests
+      run: pytest --tb=short -m "not gpu" --strict --cov=shadow tests
