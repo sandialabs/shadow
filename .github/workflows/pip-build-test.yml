@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Hello world!
-      run: |
-        echo "Hello World!"
+    - uses: conda-incubator/setup-miniconda@v1
+      with:
+        auto-update-conda: true
+        python-version: 3
+    - run: conda info
