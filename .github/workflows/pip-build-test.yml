@@ -1,0 +1,13 @@
+name: build-test-pip-workflow
+
+on: push
+
+jobs:
+  test:
+    name: Install with Pip and test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Hello world!
+      run: |
+        echo "Hello World!"
