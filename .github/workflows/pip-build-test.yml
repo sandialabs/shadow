@@ -45,3 +45,9 @@ jobs:
         repository_url: https://test.pypi.org/legacy/
         skip_existing: true
         verbose: true
+      # - name: Publish to pypi
+      # - if: startsWith(github.ref, 'refs/tags')
+      # - uses: pypa/gh-action-pypi-publish@master
+      # - with:
+      # -   user: __token__
+      # -   password: ${{ secrets.pypi_password }}
