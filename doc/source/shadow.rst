@@ -10,13 +10,12 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    shadow.eaat
-   shadow.ema
    shadow.losses
    shadow.module_wrapper
    shadow.mt
    shadow.pseudo
-   shadow.rpt
    shadow.utils
    shadow.vat

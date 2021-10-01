@@ -2,7 +2,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - sphinx
+  - sphinx=2
   - sphinx_rtd_theme
   - nbsphinx
   - ipython

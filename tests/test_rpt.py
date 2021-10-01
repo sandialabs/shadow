@@ -4,6 +4,7 @@ import torch
 import shadow.vat
 import shadow.utils
 import shadow.losses
+import pytest
 
 
 def test_semisupervised_half_moons(torch_device, simple_classification_model, ssml_half_moons_ds, train):
@@ -94,3 +95,27 @@ def test_l2_normalize_image():
     r = torch.rand(2, 3, 4)
     r_norm = shadow.vat.l2_normalize(r)
     np.testing.assert_allclose(r_norm.view(2, -1).norm(dim=1).numpy(), [1, 1])
+
+
+def test_rpt_consistency_type_mse_regress(torch_device, simple_regression_model):
+    """Test that RPT consistency type can be set to mse_regress (i.e. use torch.nn.functional.mse_loss)"""
+    # Create the model
+    model = simple_regression_model().to(torch_device)
+    vat = shadow.vat.RPT(eps=0.2, model=model, consistency_type='mse_regress')
+    assert vat.consistency_criterion is shadow.losses.mse_regress_loss
+
+
+def test_rpt_consistency_value_error(torch_device, simple_classification_model):
+    """ Test consistency type besides mse, kl, and mse_regress raises ValueError.
+
+    Args:
+        torch_device (torch.device): Device to use
+        simple_classification_model (pytest.fixture function): Function to create simple model
+
+    Returns: No return value
+
+    """
+
+    with pytest.raises(ValueError):
+        model = simple_classification_model().to(torch_device)
+        shadow.vat.RPT(eps=0.2, model=model, consistency_type='hello')

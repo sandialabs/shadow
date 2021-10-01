@@ -28,8 +28,8 @@ class EAAT(shadow.mt.MT):
             implies more smoothing. Defaults to 1.0
         power_iter (int, optional): Number of power iterations used to estimate virtual
             adversarial direction. Per [Miyato18]_, defaults to 1.
-        consistency_type ({'kl', 'mse'}, optional): Cost function used to measure consistency.
-            Defaults to `'kl'` (KL-divergence).
+        consistency_type ({'kl', 'mse', 'mse_regress'}, optional): Cost function used to
+            measure consistency. Defaults to `'kl'` (KL-divergence).
         flip_correction (bool, optional): Correct flipped virtual adversarial perturbations
             induced by power iteration estimation. These iterations sometimes converge to a
             "flipped" perturbation (away from maximum change in consistency). This correction

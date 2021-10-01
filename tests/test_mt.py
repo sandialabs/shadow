@@ -218,7 +218,7 @@ def test_semisupervised_half_moons(torch_device, simple_classification_model, ss
 
 
 def test_mt_consistency_value_error(torch_device, simple_classification_model):
-    """ Test consistency type besides mse and kl raises ValueError.
+    """ Test consistency type besides mse, kl, and mse_regress raises ValueError.
 
     Args:
         torch_device (torch.device): Device to use
@@ -279,3 +279,11 @@ def test_mt_eval_mode(torch_device, simple_classification_model, ssml_half_moons
     # Assert the EMA parameters are the same after validation
     for vp, tp in zip(val_params, trained_params):
         assert torch.equal(vp, tp)
+
+
+def test_mt_consistency_type_mse_regress(torch_device, simple_regression_model):
+    """Test that MT consistency type can be set to mse_regress (i.e. use torch.nn.functional.mse_loss)"""
+    # Create the model
+    model = simple_regression_model().to(torch_device)
+    mt = shadow.mt.MT(model=model, consistency_type='mse_regress')
+    assert mt.consistency_criterion is shadow.losses.mse_regress_loss

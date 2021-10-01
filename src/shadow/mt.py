@@ -44,7 +44,7 @@ class MT(shadow.module_wrapper.ModuleWrapper):
             the input. Specifically, generates random numbers from a normal distribution with
             mean 0 and variance 1, and then scales them by this factor and adds to the input data.
             Defaults to 0.1.
-        consistency_type ({'kl', 'mse'}, optional): Cost function used to measure consistency.
+        consistency_type ({'kl', 'mse', 'mse_regress'}, optional): Cost function used to measure consistency.
            Defaults to `'mse'` (mean squared error).
     """
     def __init__(self, model, alpha=0.999, noise=0.1, consistency_type="mse"):
@@ -64,9 +64,11 @@ class MT(shadow.module_wrapper.ModuleWrapper):
             self.consistency_criterion = shadow.losses.softmax_mse_loss
         elif consistency_type == 'kl':
             self.consistency_criterion = shadow.losses.softmax_kl_loss
+        elif consistency_type == 'mse_regress':
+            self.consistency_criterion = shadow.losses.mse_regress_loss
         else:
             raise ValueError(
-                "Unknown consistency type. Should be 'mse' or 'kl', but is " + str(consistency_type)
+                "Unknown consistency type. Should be 'mse', 'kl', or 'mse_regress', but is " + str(consistency_type)
             )
 
         # The global step is the count of the student and teacher training passes. It is essentially

@@ -26,7 +26,7 @@ pip install shadow-ssml
 
 Citing Shadow
 --------------
-* Linville, Lisa, et al. "Semi-supervised learning for seismic monitoring applications". In preparation. (2020).
+* Lisa Linville, Dylan Anderson, Joshua Michalenko, Jennifer Galasso, Timothy Draelos; Semisupervised Learning for Seismic Monitoring Applications. Seismological Research Letters 2020;; 92 (1): 388–395. doi: https://doi.org/10.1785/0220200195
 
 License
 -------
@@ -38,3 +38,7 @@ Contact
 * Lisa Linville, Sandia National Laboratories, llinvil@sandia.gov
 
 Sandia National Laboratories is a multimission laboratory managed and operated by National Technology and Engineering Solutions of Sandia LLC, a wholly owned subsidiary of Honeywell International Inc. for the U.S. Department of Energy’s National Nuclear Security Administration under contract DE-NA0003525.
+
+Copyright
+---------
+Copyright 2019, National Technology & Engineering Solutions of Sandia, LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.

@@ -2,6 +2,7 @@ import torch
 import shadow.vat
 import shadow.losses
 import warnings
+import pytest
 
 
 def test_semisupervised_half_moons(torch_device, simple_classification_model, ssml_half_moons_ds, train):
@@ -202,3 +203,27 @@ def test_flip_single_dim():
     shadow.vat.vadv_perturbation(X, model, xi=1e-4, eps=0.3, power_iter=1,
                                  consistency_criterion=shadow.losses.softmax_mse_loss,
                                  flip_correction=True)
+
+
+def test_vat_consistency_type_mse_regress(torch_device, simple_regression_model):
+    """Test that VAT consistency type can be set to mse_regress (i.e. use torch.nn.functional.mse_loss)"""
+    # Create the model
+    model = simple_regression_model().to(torch_device)
+    vat = shadow.vat.VAT(model=model, consistency_type='mse_regress')
+    assert vat.consistency_criterion is shadow.losses.mse_regress_loss
+
+
+def test_vat_consistency_value_error(torch_device, simple_classification_model):
+    """ Test consistency type besides mse, kl, and mse_regress raises ValueError.
+
+    Args:
+        torch_device (torch.device): Device to use
+        simple_classification_model (pytest.fixture function): Function to create simple model
+
+    Returns: No return value
+
+    """
+
+    with pytest.raises(ValueError):
+        model = simple_classification_model().to(torch_device)
+        shadow.vat.VAT(model, consistency_type='hello')

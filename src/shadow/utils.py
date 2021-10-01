@@ -340,3 +340,71 @@ class SkewedSigmoidCW(_CWScheduler):
         sigmoid_steps = sigmoid_steps * (self.last_weight - self.first_weight) + self.first_weight
         # Keep weight fixed initially
         self.ramp = [self.first_weight] * self.epochs_before + sigmoid_steps.tolist()
+
+
+class IgnoreUnlabeledWrapper(torch.nn.Module):
+    r"""Wraps a loss function to filter out mising values for a Semi-Supervised learning task.
+
+    Args:
+        criterion (callable): Used to compute the supervised loss.
+        ignore_index (bool, int, float, complex, optional): Specifies a target value that is ignored and does
+            not contribute to the input gradient. Defaults to negative infinity.
+
+    Example:
+        >>> ssml_loss = IgnoreUnlabeledWrapper(criterion=torch.nn.MSELoss())
+        >>> y_true = torch.rand(3, 1)
+        >>> y_hat = y_true.clone()
+        >>> y_hat
+        tensor([[0.1543],
+                [0.1572],
+                [0.0404]])
+        >>> ssml_loss(y_hat, y_true)
+        tensor(0.)
+        >>> y_true[1] = np.NINF
+        >>> y_true
+        tensor([[0.1543],
+                [  -inf],
+                [0.0404]])
+        >>> ssml_loss(y_hat, y_true)
+        tensor(0.)
+
+    Example:
+        >>> ssml_loss = IgnoreUnlabeledWrapper(criterion=torch.nn.BCELoss())
+        >>> y_hat = torch.Tensor([[0], [1], [1], [0]])
+        >>> y_true = torch.Tensor([[ignore_index], [1], [ignore_index], [1]])
+        >>> ssml_loss(y_hat, y_true)
+        tensor(50.)
+    """
+    def __init__(self, criterion, ignore_index=np.NINF):
+        super(IgnoreUnlabeledWrapper, self).__init__()
+        self.criterion = criterion
+        self.ignore_index = ignore_index
+
+    def forward(self, y_hat, y_true):
+        # if we have a 0 dimensional label tensor then there is nothing to ignore
+        # pass y_hat and y_true to criterion for proper handling
+        if len(y_hat.shape) == 0:
+            return self.criterion(y_hat, y_true)
+
+        # determine which argument contains the `ignore_index`
+        if self.ignore_index in y_true:
+            y = y_true
+        elif self.ignore_index in y_hat:
+            y = y_hat
+        else:
+            # return if there is no `ignore_index` present to avoid
+            # indexing and unnecessarily removing a dimension
+            return self.criterion(y_hat, y_true)
+
+        # create a boolean tensor of shape y.shape that describes where the ignore indexes are
+        labeled_indexes = y != self.ignore_index
+
+        if len(y.shape) > 1:
+            # if y is multidimensional, then we drop all samples where `ignore_index`
+            # is  present along the last dimension
+            labeled_indexes = labeled_indexes.all(dim=-1)
+
+        # get the values by index that are not `ignore_index`
+        y_hat_ = y_hat[labeled_indexes]
+        y_true_ = y_true[labeled_indexes]
+        return self.criterion(y_hat_, y_true_)

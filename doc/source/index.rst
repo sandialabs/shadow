@@ -72,7 +72,7 @@ Citing Shadow
 =============
 To cite shadow, use the following reference:
 
-* Linville, Lisa, et al. "Semi-supervised learning for seismic monitoring applications". In preparation. (2020).
+* Lisa Linville, Dylan Anderson, Joshua Michalenko, Jennifer Galasso, Timothy Draelos; Semisupervised Learning for Seismic Monitoring Applications. Seismological Research Letters 2020;; 92 (1): 388–395. doi: https://doi.org/10.1785/0220200195
 
 
 Contents
@@ -88,6 +88,18 @@ Contents
     developers.rst
     references.rst
 
+
+Contributors
+============
+
+* Dylan Anderson
+* Lisa Linville
+* Joshua Michalenko
+* Jennifer Galasso
+* Brian Evans
+* Henry Qiu
+* Christopher Murzyn
+* Brodderick Rodriguez
 
 Indices and tables
 ==================

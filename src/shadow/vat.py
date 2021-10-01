@@ -49,8 +49,8 @@ class RPT(shadow.module_wrapper.ModuleWrapper):
         eps (float): The magnitude of applied perturbation. Greater `eps`
             implies more smoothing.
         model (torch.nn.Module): The model to train and regularize.
-        consistency_type ({'kl', 'mse'}, optional): Cost function used to measure consistency.
-            Defaults to `'kl'` (KL-divergence).
+        consistency_type ({'kl', 'mse', 'mse_regress'}, optional): Cost function
+            used to measure consistency. Defaults to `'kl'` (KL-divergence).
     """
     def __init__(self, eps, model, consistency_type="mse"):
         super(RPT, self).__init__(model)
@@ -60,9 +60,11 @@ class RPT(shadow.module_wrapper.ModuleWrapper):
             self.consistency_criterion = shadow.losses.softmax_mse_loss
         elif consistency_type == 'kl':
             self.consistency_criterion = shadow.losses.softmax_kl_loss
+        elif consistency_type == 'mse_regress':
+            self.consistency_criterion = shadow.losses.mse_regress_loss
         else:
             raise ValueError(
-                "Unknown consistency type. Should be 'mse' or 'kl', but is " + str(consistency_type)
+                "Unknown consistency type. Should be 'mse', 'kl', or 'mse_regress', but is " + str(consistency_type)
             )
 
     def get_technique_cost(self, x):
@@ -193,8 +195,8 @@ class VAT(shadow.module_wrapper.ModuleWrapper):
            implies more smoothing. Defaults to 1.0.
        power_iter (int, optional): Number of power iterations used to estimate virtual
            adversarial direction. Per [Miyato18]_, defaults to 1.
-       consistency_type ({'kl', 'mse'}, optional): Cost function used to measure consistency.
-           Defaults to `'kl'` (KL-divergence).
+       consistency_type ({'kl', 'mse', 'mse_regress'}, optional): Cost function used to
+           measure consistency. Defaults to `'kl'` (KL-divergence).
        flip_correction (bool, optional): Correct flipped virtual adversarial perturbations
            induced by power iteration estimation. These iterations sometimes converge to a
            "flipped" perturbation (away from maximum change in consistency). This correction
@@ -222,9 +224,11 @@ class VAT(shadow.module_wrapper.ModuleWrapper):
             self.consistency_criterion = shadow.losses.softmax_mse_loss
         elif consistency_type == 'kl':
             self.consistency_criterion = shadow.losses.softmax_kl_loss
+        elif consistency_type == 'mse_regress':
+            self.consistency_criterion = shadow.losses.mse_regress_loss
         else:
             raise ValueError(
-                "Unknown consistency type. Should be 'mse' or 'kl', but is " + str(consistency_type)
+                "Unknown consistency type. Should be 'mse', 'kl', or 'mse_regress', but is " + str(consistency_type)
             )
 
     def get_technique_cost(self, x):

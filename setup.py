@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='shadow-ssml',
-    version='1.0.0',
+    version='1.0.2',
     author="Shadow Developers",
     author_email="dzander@sandia.gov",
     maintainer_email="dzander@sandia.gov",

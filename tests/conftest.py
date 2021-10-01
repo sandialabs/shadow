@@ -32,6 +32,27 @@ def simple_classification_model():
 
 
 @pytest.fixture
+def simple_regression_model():
+    """Simple regression model for 2D input to scalar output."""
+    def _make_model(seed_value=0):
+        """ Create the simple model using the passed in seed value.
+        Args:
+            seed_value (int): The seed value to apply (default is 0).
+        Returns: (torch.nn.Module) A simple model to use for testing.
+        """
+        # Set seeds for reproducibility
+        shadow.utils.set_seed(seed_value, cudnn_deterministic=True)
+        return torch.nn.Sequential(
+            torch.nn.Linear(2, 10),
+            torch.nn.ReLU(),
+            torch.nn.Linear(10, 10),
+            torch.nn.ReLU(),
+            torch.nn.Linear(10, 1)
+        )
+    return _make_model
+
+
+@pytest.fixture
 def simple_value_initialized_model():
     """Simple model with initialized weights."""
 
@@ -88,7 +109,7 @@ def ssml_dataset(dataset, unlabeled_frac=0, *args, **kwargs):
     Raises:
         ValueError: if `unlabeled_frac` is outside of the range [0, 1].
     """
-    if 0 < unlabeled_frac > 1:
+    if not 0 <= unlabeled_frac <= 1:
         raise ValueError("Unlabeled fraction must be between 0 and 1.")
 
     # Generate data, push to torch
