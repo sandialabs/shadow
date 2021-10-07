@@ -121,7 +121,7 @@ Exponential Averaging Adversarial Training
 
 A natural extension of MT and VAT is to leverage the MT teacher-student framework but utilize
 virtual adversarial perturbations to regularize the student. We denote this joint implementation
-as Exponential Average Adversarial Training [Linville20]_ (EAAT). The consistency function is
+as Exponential Average Adversarial Training [Linville21]_ (EAAT). The consistency function is
 given as:
 
 .. math::
@@ -133,7 +133,7 @@ This is illustrated in :numref:`eaat-halfmoons`.
 .. figure:: figures/eaat-halfmoons.png
     :align: center
 
-    Exponential Averaging Adversarial Training [Linville20]_ combines both VAT and MT by enforcing
+    Exponential Averaging Adversarial Training [Linville21]_ combines both VAT and MT by enforcing
     consistency between a teacher and a student in which the student is given virtual adversarial
     perturbed data.
 
@@ -185,7 +185,7 @@ experiments, this included the considerations mentioned above for both MT and VA
 and model depth, which appeared to limit SSL performance more than
 fully-supervised learning in the same data regime using EAAT.
 
-In [Linville20]_, we examine the performance between MT, VAT, and EAAT against
+In [Linville21]_, we examine the performance between MT, VAT, and EAAT against
 several baselines in a label-limited regime (where unlabeled data significantly
 outweighs the labeled data quantity). In these experiments, SSL outperforms
 baselines significantly. However, we also highlight that there is a

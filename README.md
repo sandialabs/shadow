@@ -1,7 +1,7 @@
 ![Shadow](doc/source/figures/logo.png)
 ======================================
 
-[![Build Status](https://travis-ci.org/sandialabs/shadow.svg?branch=master)](https://travis-ci.org/sandialabs/shadow)
+[![Build Status](https://app.travis-ci.com/sandialabs/shadow.svg?branch=master)](https://app.travis-ci.com/sandialabs/shadow)
 [![Coverage Status](https://coveralls.io/repos/github/sandialabs/shadow/badge.svg?branch=master)](https://coveralls.io/github/sandialabs/shadow?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/shadow-ssml/badge/?version=latest)](https://shadow-ssml.readthedocs.io/en/latest/?badge=latest)
 [![Downloads](https://pepy.tech/badge/shadow-ssml)](https://pepy.tech/project/shadow-ssml)
@@ -26,7 +26,7 @@ pip install shadow-ssml
 
 Citing Shadow
 --------------
-* Lisa Linville, Dylan Anderson, Joshua Michalenko, Jennifer Galasso, Timothy Draelos; Semisupervised Learning for Seismic Monitoring Applications. Seismological Research Letters 2020;; 92 (1): 388–395. doi: https://doi.org/10.1785/0220200195
+* Linville, L., Anderson, D., Michalenko, J., Galasso, J., & Draelos, T. (2021). Semisupervised Learning for Seismic Monitoring Applications. Seismological Society of America, 92(1), 388-395. doi: https://doi.org/10.1785/0220200195
 
 License
 -------

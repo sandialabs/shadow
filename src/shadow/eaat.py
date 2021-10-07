@@ -5,7 +5,7 @@ import shadow.mt
 
 
 class EAAT(shadow.mt.MT):
-    r"""Exponential Averaging Adversarial Training (EAAT, [Linville20]_) model wrapper for consistency regularization.
+    r"""Exponential Averaging Adversarial Training (EAAT, [Linville21]_) model wrapper for consistency regularization.
 
     Computes consistency using the teacher-student paradigm followed by Mean-Teacher
     ([Tarvainen17]_) with virtual adversarial perturbations ([Miyato18]_) applied to student
